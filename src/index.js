@@ -37,8 +37,40 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+function splitExpression(expr) {
+    let arr = []
+    for (let i = 0; i < expr.length; i += 10) {
+        arr.push(expr.slice(i, i + 10))
+    }
+    return arr
+}
+
+function transform(el){
+    if (el==="**********"){return el}
+    let result=""
+    for(let i=0;i<el.length;i+=2){
+        let pair=el.slice(i,i+2)
+        if(pair==="10"){
+            result+="."
+        } else if(pair==="11"){
+            result+="-"
+        }
+    }
+    return result
+}
+
+function codeToChar(code){
+    if (code==="**********"){
+        return " "
+    } else {
+        return MORSE_TABLE[code]
+    }
+}
+
 function decode(expr) {
-    // write your solution here
+    let splitted = splitExpression(expr)
+    let codes = splitted.map(transform)
+    return codes.map(codeToChar).join("")
 }
 
 module.exports = {
